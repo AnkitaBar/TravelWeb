@@ -1,0 +1,78 @@
+.main {
+  height: 100vh; /* Ensures the main element takes up the full height of the viewport */
+  margin: 0;
+  padding: 0;
+  /* overflow: hidden; */
+  position: relative;
+}
+
+.photoContainer {
+  position: absolute; /* Positioned absolutely to cover the whole page */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1; /* Places the image behind other content */
+}
+
+.overlayContent {
+  position: absolute;
+  top: 30%;
+  left: 5%;
+  transform: translateY(-50%);
+  color: white;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  max-width: 500px;
+}
+
+.quote {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.exploreButton {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  color: white;
+  background-color: #f56b2a; /* Base button color */
+  border: none;
+  border-radius: 30px; /* Rounded corners */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.exploreButton:hover {
+  cursor: pointer;
+  background-color: #f90404; /* Darker color on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.exploreButton:active {
+  transform: scale(0.95); /* Slight shrink effect on click */
+}
+
+@media (max-width: 768px) {
+  .overlayContent {
+    left: 10%;
+  }
+
+  .quote {
+    font-size: 1.4rem;
+  }
+
+  .exploreButton {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .quote {
+    font-size: 1.2rem;
+  }
+
+  .exploreButton {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}

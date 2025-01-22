@@ -1,0 +1,54 @@
+/* / styles/Header.module.css / */
+
+.appBar {
+    background-color: white !important; 
+    /* / Sets the AppBar background color to white / */
+    box-shadow: 0 4px 10px rgba(5, 4, 4, 0.2);
+
+    /* box-shadow: none !important;  */
+    /* / Removes any shadow / */
+    z-index: 1201; 
+    /* / Keeps it on top / */
+    position: fixed; 
+    /* / Keeps it fixed at the top / */
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.logo {
+    cursor: pointer;
+    font-weight: bold;
+    color: black; 
+    /* / Set the logo text color to black / */
+}
+
+/* / Desktop navigation buttons / */
+@media (min-width: 600px) {
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        
+    }
+
+    .toolbar button {
+        color: black; 
+        /* / Set the desktop nav text color to black / */
+    }
+}
+
+/* / Styles for mobile / */
+@media (max-width: 600px) {
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .toolbar button {
+        color: black; 
+        /* / Set the mobile nav text color to black / */
+    }
+}

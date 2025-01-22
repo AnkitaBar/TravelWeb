@@ -1,0 +1,112 @@
+.background {
+    background-image: url('/background1.webp'); /* Same background as Login */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .formContainer {
+    /* background: rgba(255, 255, 255, 0.8); */
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(15, 15, 15, 0.2);
+    padding: 20px 30px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+  
+  .h2 {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #0d0d0d;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+  
+  .inputGroup label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0b0a0a;
+    margin-bottom: 5px;
+  }
+  
+  .input {
+    padding: 10px;
+    border: 1px solid #0c0c0c;
+
+    border-radius: 5px;
+    font-size: 18px;
+    /* font-weight: bold; */
+  }
+  
+  .input:focus {
+    border-color: #1d1d1e;
+    outline: none;
+    box-shadow: 0 0 5px rgba(20, 20, 20, 0.5);
+  }
+  
+  .button {
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #030303;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #272829;
+  }
+  
+  .success {
+    color: green;
+    font-size: 14px;
+  }
+  
+  .error {
+    color: red;
+    font-size: 14px;
+  }
+  
+  .links {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .link {
+    color: #050506;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .link:hover {
+    color: #2f2f30;
+  }
+  
+  .h2 {
+    font-family: Arial, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #0a0a0a;
+  }
+  
