@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Geist, Geist_Mono } from "next/font/google";
 import Home from "./component/Home";
 import Portfolio from "./component/portfolio";
-import { Testimonial } from "./component/testimonial";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,7 +18,6 @@ export default function Index() {
     <>
       <Home/>
       <Portfolio/>
-      <Testimonial/>
       
      
     </>
