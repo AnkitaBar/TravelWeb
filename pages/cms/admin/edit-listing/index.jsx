@@ -62,7 +62,7 @@ export const ViewDetails = () => {
 
       setListing(editListing); // Update the local state
       setOpenEditDialog(false); // Close the dialog
-      router.push('/cms/all-listing'); // Redirect to all listings
+      router.push('/cms/admin/all-listing'); // Redirect to all listings
     } catch (err) {
       console.error('Error updating listing:', err.message);
     }
@@ -77,7 +77,7 @@ export const ViewDetails = () => {
 
       if (error) throw error;
 
-      router.push('/cms/all-listing'); // Redirect after deletion
+      router.push('/cms/admin/all-listing'); // Redirect after deletion
     } catch (err) {
       console.error('Error deleting listing:', err.message);
     }

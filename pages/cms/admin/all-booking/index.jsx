@@ -2,47 +2,61 @@ import { useEffect, useState } from "react";
 import { Box, Card, CircularProgress, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { supabase } from "@/lib/supabaseClient";
+import Wrapper from "@/layout/wrapper/wrapper";
 
 const columns = [
-  { field: "name", headerName: "Name", width: 200 },
-  { field: "mobile", headerName: "Mobile", width: 150 },
-  { field: "email", headerName: "Email", width: 200 },
-  { field: "checkIn", headerName: "Check-In", width: 150 },
-  { field: "checkOut", headerName: "Check-Out", width: 150 },
-  { field: "adults", headerName: "Adults", width: 100 },
-  { field: "kids", headerName: "Kids", width: 100 },
-  { field: "specialRequest", headerName: "Special Request", width: 200 },
-  { field: "listingTitle", headerName: "Listing Title", width: 200 },
+  { field: "listing_title", headerName: "Listing Title", width: 200 },
+  { field: "user_email", headerName: "User Email", width: 200 },
+  { field: "from", headerName: "Check-In", width: 150 },
+  { field: "to", headerName: "Check-Out", width: 150 },
+  { field: "num_guests", headerName: "Guests", width: 100 },
+  { field: "subtotal", headerName: "Subtotal ($)", width: 120 },
+  { field: "created_at", headerName: "Created At", width: 180 },
 ];
 
 const BookingsPage = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchBookings = async () => {
-      try {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from("booking") // Replace with your table name
-          .select("*"); // Select all fields
+  const fetchBookings = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from("booking")
+        .select("*");
 
-        if (error) {
-          throw error;
-        }
-
-        setBookings(data || []);
-      } catch (error) {
-        console.error("Error fetching bookings:", error.message);
-      } finally {
-        setLoading(false);
+      if (error) {
+        throw error;
       }
-    };
 
+      // Ensure data integrity
+      const formattedData = data.map((booking) => ({
+        id: booking.id, // Must have a unique ID
+        listing_title: booking.listing_title || "N/A",
+        user_email: booking.user_email || "N/A",
+        from: booking.from ,
+        to: booking.to || "N/A",
+        num_guests: booking.num_guests || 0,
+        subtotal: booking.subtotal || 0,
+        created_at: new Date(booking.created_at).toLocaleString(),
+      }));
+
+      setBookings(formattedData);
+    } catch (error) {
+      console.error("Error fetching bookings:", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchBookings();
   }, []);
 
   return (
+    <>
+  <Wrapper>
+
     <Box
       sx={{
         p: 3,
@@ -82,25 +96,14 @@ const BookingsPage = () => {
           </Box>
         ) : (
           <DataGrid
-            rows={bookings.map((booking) => ({
-              id: booking.id, // Ensure the "id" field exists in your table
-              name: booking.name,
-              mobile: booking.mobile,
-              email: booking.email,
-              checkIn: booking.checkIn,
-              checkOut: booking.checkOut,
-              adults: booking.adults,
-              kids: booking.kids,
-              specialRequest: booking.specialRequest,
-              listingTitle: booking.listingTitle,
-            }))}
+            rows={bookings}
             columns={columns}
             initialState={{
               pagination: {
-                paginationModel: { pageSize: 3 }, // Show at least 3 rows
+                paginationModel: { pageSize: 5 },
               },
             }}
-            pageSizeOptions={[3, 5, 10]} // Options for page size selection
+            pageSizeOptions={[5, 10, 20]}
             sx={{
               "& .MuiDataGrid-root": {
                 border: "none",
@@ -118,6 +121,8 @@ const BookingsPage = () => {
         )}
       </Card>
     </Box>
+    </Wrapper>
+    </>
   );
 };
 
