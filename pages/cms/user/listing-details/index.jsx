@@ -43,6 +43,8 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
     const { data, error } = await supabase.auth.getUser();
     if (!error) {
       setUserEmail(data?.user?.email);
+      console.log(data?.user?.email);
+      console.log(data?.user?.id);
     }
   };
 

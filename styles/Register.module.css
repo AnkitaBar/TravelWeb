@@ -74,6 +74,21 @@
     background-color: #272829;
   }
   
+  .googleButton {
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #030303;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .googleButton:hover {
+    background-color: #272829;
+  }
+  
   .success {
     color: green;
     font-size: 14px;

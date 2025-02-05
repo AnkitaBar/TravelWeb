@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Box, Card, CircularProgress, Typography, Table, TableHead, TableRow, TableCell, TableBody, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button } from "@mui/material";
 import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material";
 import { supabase } from "@/lib/supabaseClient";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import Wrapper from "@/layout/wrapper/wrapper";
 
 const UserDetails = () => {
   const [users, setUsers] = useState([]);
@@ -40,18 +40,21 @@ const UserDetails = () => {
         .from("users")
         .delete()
         .eq("id", id);
-
+  
       if (error) {
         throw error;
       }
-
-      setUsers(users.filter((user) => user.id !== id));
+  
+      // Filter users safely before updating state
+      setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id));
+  
       toast.success("User deleted successfully!");
     } catch (error) {
       console.error("Error deleting user:", error.message);
       toast.error("Error deleting user. Please try again.");
     }
   };
+  
 
   const handleEdit = (user) => {
     setEditListing(user); // Set the user data to be edited
@@ -84,13 +87,16 @@ const UserDetails = () => {
   };
 
   return (
+    <>
+    <Wrapper>
+
     <Box
       sx={{
         p: 3,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "120px",
+        marginTop: "10px",
       }}
     >
       <Typography
@@ -147,9 +153,9 @@ const UserDetails = () => {
                     <TableCell align="center">{user.email}</TableCell>
                     <TableCell align="center">{user.role}</TableCell>
                     <TableCell align="center">
-                      <IconButton color="primary" onClick={() => handleEdit(user)}>
+                      {/* <IconButton color="primary" onClick={() => handleEdit(user)}>
                         <EditIcon />
-                      </IconButton>
+                      </IconButton> */}
                       <IconButton color="error" onClick={() => handleDelete(user.id)}>
                         <DeleteIcon />
                       </IconButton>
@@ -163,7 +169,7 @@ const UserDetails = () => {
       </Card>
 
       {/* Edit Dialog */}
-      <Dialog
+      {/* <Dialog
         open={openEditDialog}
         onClose={() => setOpenEditDialog(false)}
       >
@@ -205,11 +211,13 @@ const UserDetails = () => {
             Save
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
 
       {/* ToastContainer for notifications */}
       <ToastContainer />
     </Box>
+    </Wrapper>
+    </>
   );
 };
 

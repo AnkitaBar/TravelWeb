@@ -1,98 +1,3 @@
-// import { useState } from 'react';
-// import { useRouter } from 'next/router';
-// import { supabase } from '@/lib/supabaseClient';
-
-// const Login = () => {
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [error, setError] = useState('');
-//   const router = useRouter();
-
-//   // const handleLogin = async (e) => {
-//   //   e.preventDefault();
-//   //   setError('');
-
-//   //   const { data, error } = await supabase.auth.signInWithPassword({
-//   //     email,
-//   //     password,
-//   //   });
-
-//   //   if (error) {
-//   //     setError(error.message);
-//   //   } else {
-//   //     router.push('/cms/all-listing'); // Redirect to dashboard
-//   //   }
-//   // };
-
-
-// const handleLogin = async (e) => {
-//     e.preventDefault();
-//     setError('');
-
-//     // Step 1: Authenticate the user
-//     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-//       email,
-//       password,
-//     });
-
-//     if (authError) {
-//       setError(authError.message);
-//       return;
-//     }
-
-//     // Step 2: Fetch the user role from the `users` table
-//     const { data: userData, error: dbError } = await supabase
-//       .from('users')
-//       .select('role')
-//       .eq('email', email)
-//       .single(); // Use `.single()` to get a single record
-
-//     if (dbError) {
-//       setError('Failed to fetch user role. Please try again.');
-//       return;
-//     }
-
-//     // Step 3: Redirect based on the user's role
-//     if (userData.role === 'admin') {
-//       router.push('/cms/all-listing'); // Redirect to admin page
-//     } else if (userData.role === 'user') {
-//       router.push('/cms/all-listing'); // Redirect to user dashboard
-//     } else {
-//       setError('Invalid user role. Please contact support.');
-//     }
-//   };
-
-//   return (
-//     <div style={{ padding: '20px' }}>
-//       <h2>Login</h2>
-//       <form onSubmit={handleLogin}>
-//         <div>
-//           <label>Email</label>
-//           <input
-//             type="email"
-//             value={email}
-//             onChange={(e) => setEmail(e.target.value)}
-//             required
-//           />
-//         </div>
-//         <div>
-//           <label>Password</label>
-//           <input
-//             type="password"
-//             value={password}
-//             onChange={(e) => setPassword(e.target.value)}
-//             required
-//           />
-//         </div>
-//         <button type="submit">Login</button>
-//         {error && <p style={{ color: 'red' }}>{error}</p>}
-//       </form>
-//     </div>
-//   );
-// };
-
-// export default Login;
-
 
 import { useState } from 'react';
 import { useRouter } from 'next/router';
@@ -211,3 +116,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+

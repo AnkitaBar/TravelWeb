@@ -52,7 +52,7 @@ const Dashboard = () => {
         </List>
       </Collapse>
 
-      {/* Page Contain Section */}
+      {/* user Section */}
       <ListItem disablePadding>
         <ListItemButton onClick={() => handleToggle('User')} sx={listItemButtonStyle}>
           <ListItemText primary="User" />
@@ -64,26 +64,26 @@ const Dashboard = () => {
           <ListItem component={Link} href="/cms/admin/all-booking" sx={listItemLinkStyle}>
             <Typography sx={typographyStyle}>All Bookings</Typography>
           </ListItem>
-          <ListItem component={Link} href="/cms/team" sx={listItemLinkStyle}>
-            <Typography sx={typographyStyle}>Our Team</Typography>
+          <ListItem component={Link} href="/cms/user/all-user" sx={listItemLinkStyle}>
+            <Typography sx={typographyStyle}>All Users</Typography>
           </ListItem>
-          <ListItem component={Link} href="/cms/testimonial" sx={listItemLinkStyle}>
+          {/* <ListItem component={Link} href="/cms/testimonial" sx={listItemLinkStyle}>
             <Typography sx={typographyStyle}>Testimonial</Typography>
-          </ListItem>
+          </ListItem> */}
         </List>
       </Collapse>
 
-      {/* Course Section */}
+      {/* Analysis Section */}
       <ListItem disablePadding>
-        <ListItemButton onClick={() => handleToggle('Course')} sx={listItemButtonStyle}>
-          <ListItemText primary="Course" />
-          {open === 'Course' ? <ExpandLess /> : <ExpandMore />}
+        <ListItemButton onClick={() => handleToggle('Analysis')} sx={listItemButtonStyle}>
+          <ListItemText primary="Analysis" />
+          {open === 'Analysis' ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
       </ListItem>
-      <Collapse in={open === 'Course'} timeout="auto" unmountOnExit>
+      <Collapse in={open === 'Analysis'} timeout="auto" unmountOnExit>
         <List component="div" disablePadding sx={{ pl: 4 }}>
-          <ListItem component={Link} href="/cms/course" sx={listItemLinkStyle}>
-            <Typography sx={typographyStyle}>All Courses</Typography>
+          <ListItem component={Link} href="/cms/admin/analysis" sx={listItemLinkStyle}>
+            <Typography sx={typographyStyle}>All Analysis</Typography>
           </ListItem>
         </List>
       </Collapse>
