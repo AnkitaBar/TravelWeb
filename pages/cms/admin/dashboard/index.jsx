@@ -43,12 +43,12 @@ const Dashboard = () => {
           <ListItem component={Link} href="/cms/admin/all-listing" sx={listItemLinkStyle}>
             <Typography sx={typographyStyle}>All Listing</Typography>
           </ListItem>
-          <ListItem component={Link} href="/cms/latest-post" sx={listItemLinkStyle}>
+          {/* <ListItem component={Link} href="/cms/latest-post" sx={listItemLinkStyle}>
             <Typography sx={typographyStyle}>Latest Post</Typography>
           </ListItem>
           <ListItem component={Link} href="/cms/blog-category" sx={listItemLinkStyle}>
             <Typography sx={typographyStyle}>All Categories</Typography>
-          </ListItem>
+          </ListItem> */}
         </List>
       </Collapse>
 

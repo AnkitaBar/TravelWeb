@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/router';
 import styles from '@/styles/Register.module.css'; // Import the CSS module
 import { supabase } from '@/lib/supabaseClient';
+import toast from 'react-hot-toast';
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -121,7 +120,6 @@ const Register = () => {
       </div>
 
       {/* Toastify Container */}
-      <ToastContainer />
     </div>
   );
 };

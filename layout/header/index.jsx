@@ -16,17 +16,17 @@ import { useRouter } from "next/router";
 import styles from "@/styles/Header.module.css"; // Import the CSS module
 import { useAuthStore } from "@/lib/useAuthStore";
 import { supabase } from "@/lib/supabaseClient"; // Import Supabase instance
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
-  const [client, setClient] = useState(false); // ✅ Prevent SSR mismatch
+  const [client, setClient] = useState(false); //  Prevent SSR mismatch
   const [user, setUser] = useState(null);
   const router = useRouter();
   const { userRole, setUserId, setUserRole, fetchUserRole, clearAuth } = useAuthStore();
 
   useEffect(() => {
-    setClient(true); // ✅ Ensures hydration works correctly
+    setClient(true); //  Ensures hydration works correctly
 
     const loadRoleFromStorage = () => {
       const storedRole = localStorage.getItem("userRole");
@@ -95,7 +95,9 @@ const Header = () => {
     console.log("Session after logout:", session);
 
     toast.success("Logged out successfully!");
-    router.push("/"); // Redirect to homepage or login page
+    setTimeout(() => {
+      router.push("/"); // Redirect to login page
+    }, 1000);
   };
 
   const handleToggleDrawer = () => {
@@ -130,7 +132,7 @@ const Header = () => {
             About
           </Button>
 
-          {/* ✅ Prevent SSR Mismatch by rendering only after hydration */}
+          {/*  Prevent SSR Mismatch by rendering only after hydration */}
           {client && (
             <>
               {userRole === "admin" ? (
@@ -185,7 +187,7 @@ const Header = () => {
               <ListItemText primary="About" />
             </ListItem>
 
-            {/* ✅ Prevent SSR Mismatch by wrapping in `client` state */}
+            {/*  Prevent SSR Mismatch by wrapping in `client` state */}
             {client && (
               <>
                 {userRole === "admin" ? (

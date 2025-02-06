@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import { supabase } from "@/lib/supabaseClient";
 import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
 const ListingDetails = () => {
   const router = useRouter();
@@ -27,10 +28,9 @@ const ListingDetails = () => {
   const [averageRating, setAverageRating] = useState(0);
   const [userEmail, setUserEmail] = useState(null);
 
-const [fromDate, setFromDate] = useState(null);
-const [toDate, setToDate] = useState(null);
-const [numberOfGuests, setNumberOfGuests] = useState(2);
-
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [numberOfGuests, setNumberOfGuests] = useState(2);
 
   useEffect(() => {
     if (id) {
@@ -71,38 +71,66 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
 
   const handleSubmitReview = async () => {
     if (!userEmail) {
-      alert("You must be logged in to submit a review.");
+      toast.error("🚫 You must be logged in to submit a review!", {
+        style: {
+          background: "white",
+          color: "black",
+        },
+      });
       return;
     }
     if (rating === 0 || !review) {
-      alert("Please provide a rating and review.");
+      toast.error("⚠️ Please provide both a rating and review!", {
+        style: {
+          background: "#fff",
+          color: "black",
+        },
+      });
       return;
     }
 
-    await supabase
-      .from("rating")
-      .insert([
-        {
-          listing_id: id,
-          rating,
-          review,
-          user_email: userEmail,
-          created_at: new Date().toISOString(),
-        },
-      ]);
-    alert("Review submitted successfully!");
+    await supabase.from("rating").insert([
+      {
+        listing_id: id,
+        rating,
+        review,
+        user_email: userEmail,
+        created_at: new Date().toISOString(),
+      },
+    ]);
+    toast.success("✅ Review submitted successfully!", {
+      style: {
+        background: "white",
+        color: "black",
+      },
+    });
     setRating(0);
     setReview("");
     fetchListingDetails();
   };
 
-
   const handleSubmitBooking = async () => {
-    if (!fromDate || !toDate) {
-      alert("Please select both 'From' and 'To' dates.");
+    if (!userEmail) {
+      toast.error("🚫 You must be logged in to Booking !", {
+        style: {
+          background: "white",
+          color: "black",
+        },
+      });
       return;
     }
-  
+    if (!fromDate || !toDate) {
+      toast.error("📅 Please select both 'From' and 'To' dates.", {
+        style: {
+          background: "#fff",
+          color: "black",
+        },
+      });
+      return;
+    }
+
+    const subtotal = (listing?.price || 0) * numberOfGuests;
+
     const { data, error } = await supabase.from("booking").insert([
       {
         listing_id: id,
@@ -115,24 +143,26 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
         created_at: new Date().toISOString(),
       },
     ]);
-  
+
     if (error) {
       console.error("Error:", error);
-      alert("Error submitting booking: " + error.message);
+      toast.error("Error submitting booking: " + error.message);
     } else {
-      alert("Booking submitted successfully!");
-  
+      toast.success("🎉 Booking confirmed successfully!", {
+        style: {
+          background: "white",
+          color: "black",
+        },
+      });
       // Reset fields
       setFromDate(null);
       setToDate(null);
       setNumberOfGuests(2);
-  
+
       // Refresh the page
       router.reload();
     }
   };
-  
-  
 
   if (loading)
     return (
@@ -194,7 +224,7 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
                   fontWeight="bold"
                   color="primary"
                   gutterBottom
-                  sx={{ color:"orange" }}
+                  sx={{ color: "orange" }}
                 >
                   Rate & Review
                 </Typography>
@@ -287,7 +317,6 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
             </CardContent>
           </Card>
         </Grid>
-
 
         {/* Right Side: Booking Details */}
         <Grid item xs={12} md={4}>
@@ -386,7 +415,7 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
                   defaultValue={2}
                   onChange={(e) => setNumberOfGuests(e.target.value)}
                 >
-                  {[1, 2, 3, 4, 5].map((guest) => (
+                  {[1, 2, 3, 4, 5,6].map((guest) => (
                     <MenuItem key={guest} value={guest}>
                       {guest} {guest === 1 ? "guest" : "guests"}
                     </MenuItem>
@@ -399,7 +428,16 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
                 color="#7bbcb0"
                 sx={{ marginY: "1rem" }}
               >
-                Subtotal: ${listing?.price || "N/A"}
+                Price: ${listing?.price || "N/A"} / person
+              </Typography>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                color="#7bbcb0"
+                sx={{ marginY: "1rem" }}
+              >
+                Subtotal: ${((listing?.price || 0) * numberOfGuests).toFixed(2)}{" "}
+                {/* Display calculated subtotal */}{" "}
               </Typography>
               <Button
                 variant="contained"
@@ -414,7 +452,7 @@ const [numberOfGuests, setNumberOfGuests] = useState(2);
                   height: "40px",
                   "&:hover": { backgroundColor: "#65a39c" },
                 }}
-                 onClick={handleSubmitBooking}
+                onClick={handleSubmitBooking}
               >
                 Confirm Booking
               </Button>

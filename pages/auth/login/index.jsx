@@ -1,30 +1,56 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { supabase } from "@/lib/supabaseClient";
+import { useAuthStore } from "@/lib/useAuthStore";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
-import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { supabase } from '@/lib/supabaseClient';
-import { useAuthStore } from '@/lib/useAuthStore';
-import styles from '@/styles/Login.module.css';
+import styles from "@/styles/Login.module.css";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
-
   const { setUserId, setUserRole } = useAuthStore();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError('');
+  // Initialize React Hook Form
+  const {
+    register,
+    handleSubmit,
+    setError: setFormError,
+    formState: { errors },
+  } = useForm();
+
+  // useEffect(() => {
+  //   toast.success("Toast is working!");
+  // }, []);
+
+  const handleLogin = async (data) => {
+    const { email, password } = data;
+    setError("");
+
+    // Custom validation
+    if (!email || !email.includes("@")) {
+      setFormError("email", { message: "Invalid email format" });
+      return;
+    }
+    if (!password || password.length < 6) {
+      setFormError("password", {
+        message: "Password must be at least 6 characters",
+      });
+      return;
+    }
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data: authData, error: authError } =
+        await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
       if (authError) {
         setError(authError.message);
+        toast.error(authError.message);
         return;
       }
 
@@ -32,90 +58,80 @@ const Login = () => {
       setUserId(userId);
 
       const { data: userData, error: dbError } = await supabase
-        .from('users')
-        .select('role')
-        .eq('email', email)
+        .from("users")
+        .select("role")
+        .eq("email", email)
         .single();
 
       if (dbError) {
-        setError('Failed to fetch user role. Please try again.');
+        setError("Failed to fetch user role. Please try again.");
+        toast.error("Failed to fetch user role. Please try again.");
         return;
       }
 
       const userRole = userData.role;
       setUserRole(userRole);
 
-      router.push(userRole === 'admin' ? '/' : '/');
+      toast.success("Login successful!");
+      setTimeout(() => {
+        router.push(userRole === "admin" ? "/" : "/");
+      }, 1000);
     } catch (err) {
-      console.error('Unexpected error:', err.message);
-      setError('Something went wrong. Please try again.');
+      console.error("Unexpected error:", err.message);
+      setError("Something went wrong. Please try again.");
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
   return (
     <div className={styles.background}>
-  <div className={styles.formContainer}>
-    <h2 className="h2">Login</h2>
-    <form onSubmit={handleLogin} className={styles.form}>
-      {/* Email Input */}
-      <div className={styles.inputGroup}>
-        <label>Email</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className={styles.input}
-        />
-      </div>
-      
-      {/* Password Input */}
-      <div className={styles.inputGroup}>
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className={styles.input}
-        />
-      </div>
-      
-      {/* Remember Me */}
-      <div className={styles.rememberMe}>
-        <input
-          type="checkbox"
-          id="rememberMe"
-          className={styles.checkbox}
-        />
-        <label htmlFor="rememberMe">Remember Me</label>
-      </div>
-      
-      {/* Error Message */}
-      {error && <p className={styles.error}>{error}</p>}
-      
-      {/* Submit Button */}
-      <button type="submit" className={styles.button}>
-        Login
-      </button>
-    </form>
-    
-    {/* Links for Forget Password and Sign Up */}
-    <div className={styles.links}>
-      <a href="/forgot-password" className={styles.link}>
-        Forgot Password?
-      </a>
-      <a href="/auth/register" className={styles.link}>
-        Sign Up
-      </a>
-    </div>
-  </div>
-</div>
+      <div className={styles.formContainer}>
+        <h2 className="h2">Login</h2>
+        <form onSubmit={handleSubmit(handleLogin)} className={styles.form}>
+          {/* Email Input */}
+          <div className={styles.inputGroup}>
+            <label>Email</label>
+            <input
+              type="email"
+              {...register("email", { required: "Email is required" })}
+              className={styles.input}
+            />
+            {errors.email && (
+              <p className={styles.error}>{errors.email.message}</p>
+            )}
+          </div>
 
+          {/* Password Input */}
+          <div className={styles.inputGroup}>
+            <label>Password</label>
+            <input
+              type="password"
+              {...register("password", { required: "Password is required" })}
+              className={styles.input}
+            />
+            {errors.password && (
+              <p className={styles.error}>{errors.password.message}</p>
+            )}
+          </div>
+
+          {/* Error Message */}
+          {error && <p className={styles.error}>{error}</p>}
+
+          {/* Submit Button */}
+          <button type="submit" className={styles.button}>
+            Login
+          </button>
+        </form>
+
+        {/* Links for Forget Password and Sign Up */}
+        <div className={styles.links}>
+          <a href="/auth/register" className={styles.link}>
+            Sign Up
+          </a>
+        </div>
+      </div>
+    </div>
   );
 };
 
 export default Login;
-
-
-

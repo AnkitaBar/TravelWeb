@@ -17,9 +17,9 @@ import {
 import { supabase } from "@/lib/supabaseClient";
 import Wrapper from "@/layout/wrapper/wrapper";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dayjs from "dayjs";
+import toast from "react-hot-toast";
 
 export const ViewDetails = () => {
   const [listing, setListing] = useState(null);

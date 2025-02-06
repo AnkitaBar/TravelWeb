@@ -13,9 +13,9 @@ import {
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
-import { toast, ToastContainer } from "react-toastify";
 import { supabase } from "@/lib/supabaseClient";
 import Wrapper from "@/layout/wrapper/wrapper";
+import toast from "react-hot-toast";
 
 const Listing = () => {
   const router = useRouter();
@@ -186,7 +186,7 @@ const Listing = () => {
           </Grid>
         </form>
       </Paper>
-      <ToastContainer />
+      
     </Box>
     </Wrapper>
     </>

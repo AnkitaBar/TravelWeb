@@ -69,7 +69,7 @@ const Portfolio = () => {
     <div style={styles.mainDiv}>
       <Container maxWidth="lg" style={{ marginTop: '2rem' }}>
         <div style={styles.portfolioContainer}>
-          <h1>Portfolio</h1>
+          <h1>Gallery</h1>
           <p>Explore the best top places and treks. Discover your next adventure.</p>
         </div>
 
